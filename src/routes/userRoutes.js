@@ -2,13 +2,19 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/UserController");
 const { authenticateToken } = require("../middleware/authMiddleware");
+const { authorizeAdmin } = require("../middleware/adminMiddleware"); // novo
 
 // Rotas públicas
 router.post("/login", userController.login);
 router.post("/", userController.createUser);
 
-// Rotas protegidas
+// Rotas protegidas (qualquer usuário logado)
 router.put("/:id", authenticateToken, userController.updateUser);
 router.get("/:email", authenticateToken, userController.getUserByEmail);
+
+// Rota só para admins
+router.get("/admin", authenticateToken, authorizeAdmin, (req, res) => {
+  res.json({ message: "Bem-vindo Admin 🚀" });
+});
 
 module.exports = router;

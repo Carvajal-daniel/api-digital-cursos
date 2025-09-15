@@ -61,6 +61,7 @@ async function updateUser(req, res) {
 }
 
 // Login e geração de token
+// Login e geração de token
 async function login(req, res) {
   const { email, password } = req.body;
 
@@ -74,16 +75,28 @@ async function login(req, res) {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(401).json({ message: "Senha inválida" });
 
+    // 👇 inclui o role no token se quiser
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role }, 
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || "1h" }
     );
 
-    res.json({ message: "Login realizado com sucesso", token });
+    // 👇 devolve também o usuário no response
+    res.json({
+      message: "Login realizado com sucesso",
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role, // 👈 agora vem junto
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
+
 
 module.exports = { getUserByEmail, createUser, updateUser, login };

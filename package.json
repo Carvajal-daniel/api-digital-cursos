@@ -18,6 +18,16 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
-    "prisma": "^6.16.1"
-  }
+    "prisma": "^6.16.1",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Carvajal-daniel/api-digital-cursos.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Carvajal-daniel/api-digital-cursos/issues"
+  },
+  "homepage": "https://github.com/Carvajal-daniel/api-digital-cursos#readme"
 }

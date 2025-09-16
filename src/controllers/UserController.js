@@ -74,12 +74,12 @@ async function login(req, res) {
     if (!validPassword) return res.status(401).json({ message: "Senha inválida" });
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role }, // 👈 role incluído
+      { id: user.id, email: user.email, role: user.role }, 
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || "1h" }
     );
 
-    // 👇 envia **uma única resposta** com token + usuário
+    
     res.json({
       message: "Login realizado com sucesso",
       token,
@@ -87,7 +87,7 @@ async function login(req, res) {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role, // 👈 importante
+        role: user.role,
       }
     });
   } catch (error) {

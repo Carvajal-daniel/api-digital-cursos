@@ -17,8 +17,15 @@ async function updateUser(id, data) {
   });
 }
 
+async function deleteUser(id) {
+  return await prisma.user.delete({
+    where: { id: Number(id) },
+  });
+}
+
 module.exports = {
   createUser,
   findUserByEmail,
   updateUser,
+  deleteUser,
 };

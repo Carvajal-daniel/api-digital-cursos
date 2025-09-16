@@ -12,7 +12,8 @@ router.post("/", userController.createUser);
 router.put("/:id", authenticateToken, userController.updateUser);
 router.get("/:email", authenticateToken, userController.getUserByEmail);
 
-// Rota só para admins
+// Rota para admins
+router.delete("/:id", authenticateToken, authorizeAdmin, userController.deleteUser);
 router.get("/admin-dashboard", authenticateToken, authorizeAdmin, (req, res) => {
   res.json({ message: "Bem-vindo Admin 🚀" });
 });

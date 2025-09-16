@@ -60,6 +60,18 @@ async function updateUser(req, res) {
   }
 }
 
+//delete user
+
+async function deleteUser(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await userModel.deleteUser(id);
+    res.status(200).json({ status: "success", data: user });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+}
+
 async function login(req, res) {
   const { email, password } = req.body;
 
@@ -96,4 +108,4 @@ async function login(req, res) {
 }
 
 
-module.exports = { getUserByEmail, createUser, updateUser, login };
+module.exports = { getUserByEmail, createUser, updateUser, login, deleteUser };

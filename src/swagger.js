@@ -76,6 +76,13 @@ const swaggerDocument = {
         summary: "Dashboard admin",
         responses: { 200: { description: "Bem-vindo Admin" }, 403: { description: "Sem permissão" }, 401: { description: "Não autorizado" } }
       }
+    },
+    "/users/{id}": {
+      delete: {
+        summary: "Deleta usuário pelo ID (admin)",
+        parameters: [{ name: "id", in: "path", required: true, schema: { type: "string" } }],
+        responses: { 200: { description: "Usuário deletado" }, 404: { description: "Não encontrado" }, 403: { description: "Sem permissão" }, 401: { description: "Não autorizado" } }
+      }
     }
   },
   components: {

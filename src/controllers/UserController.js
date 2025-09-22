@@ -7,7 +7,7 @@ dotenv.config();
 
 // Buscar usuário por e-mail
 async function getUserByEmail(req, res) {
-  const { email } = req.query; // usar query ao invés de params
+  const { email } = req.query; 
   if (!email)
     return res.status(400).json({ status: "error", message: "Email é obrigatório" });
 
@@ -44,24 +44,24 @@ async function updateUser(req, res) {
   const { id } = req.params;
   const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
+  if (!name || !email)
     return res
       .status(400)
-      .json({ status: "error", message: "Todos os campos são obrigatórios" });
-  }
+      .json({ status: "error", message: "Nome e email são obrigatórios" });
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userModel.updateUser(id, {
-      name,
-      email,
-      password: hashedPassword,
-    });
+    const updateData = { name, email };
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const user = await userModel.updateUser(id, updateData);
     res.status(200).json({ status: "success", data: user });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }
 }
+
 
 //delete user
 

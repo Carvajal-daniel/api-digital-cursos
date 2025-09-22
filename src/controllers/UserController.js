@@ -7,18 +7,21 @@ dotenv.config();
 
 // Buscar usuário por e-mail
 async function getUserByEmail(req, res) {
-  const { email } = req.params;
+  const { email } = req.query; // usar query ao invés de params
+  if (!email)
+    return res.status(400).json({ status: "error", message: "Email é obrigatório" });
+
   try {
     const user = await userModel.findUserByEmail(email);
     if (!user)
-      return res
-        .status(404)
-        .json({ status: "error", message: "Usuário não encontrado" });
+      return res.status(404).json({ status: "error", message: "Usuário não encontrado" });
+
     res.status(200).json({ status: "success", data: user });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }
 }
+
 
 // Criar usuário com senha criptografada
 async function createUser(req, res) {

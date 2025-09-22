@@ -14,6 +14,9 @@ router.get("/admin-dashboard", authenticateToken, authorizeAdmin, (req, res) => 
   res.json({ message: "Bem-vindo Admin 🚀" });
 });
 
+// Nova rota para verificar senha atual
+router.post("/verify-password", authenticateToken, userController.verifyPassword);
+
 // Rotas dinâmicas
 router.put("/:id", authenticateToken, userController.updateUser);
 router.get("/:email", authenticateToken, userController.getUserByEmail);

@@ -1,7 +1,8 @@
-const bcrypt = require("bcryptjs");
+
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const userModel = require("../models/UserModels");
+const bcrypt = require("bcryptjs");
 
 dotenv.config();
 
@@ -111,5 +112,27 @@ async function login(req, res) {
   }
 }
 
+async function verifyPassword(req, res) {
+  const { email, password } = req.body;
 
-module.exports = { getUserByEmail, createUser, updateUser, login, deleteUser };
+  if (!email || !password)
+    return res.status(400).json({ status: "error", message: "Email e senha são obrigatórios" });
+
+  try {
+    const user = await userModel.findUserByEmail(email);
+    if (!user)
+      return res.status(404).json({ status: "error", message: "Usuário não encontrado" });
+
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid)
+      return res.status(401).json({ status: "error", message: "Senha incorreta" });
+
+    res.status(200).json({ status: "success", message: "Senha correta" });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+}
+
+
+
+module.exports = { getUserByEmail, createUser, updateUser, login, deleteUser, verifyPassword };

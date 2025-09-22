@@ -7,7 +7,7 @@ dotenv.config();
 
 // Buscar usuário por e-mail
 async function getUserByEmail(req, res) {
-  const { email } = req.query; 
+  const { email } = req.params; 
   if (!email)
     return res.status(400).json({ status: "error", message: "Email é obrigatório" });
 
@@ -21,6 +21,7 @@ async function getUserByEmail(req, res) {
     res.status(500).json({ status: "error", message: error.message });
   }
 }
+
 
 
 // Criar usuário com senha criptografada

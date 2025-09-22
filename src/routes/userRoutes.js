@@ -9,13 +9,16 @@ router.post("/login", userController.login);
 router.post("/", userController.createUser);
 
 // Rotas protegidas (qualquer usuário logado)
+// Coloque rotas estáticas antes das dinâmicas para evitar conflitos
+router.get("/admin-dashboard", authenticateToken, authorizeAdmin, (req, res) => {
+  res.json({ message: "Bem-vindo Admin 🚀" });
+});
+
+// Rotas dinâmicas
 router.put("/:id", authenticateToken, userController.updateUser);
 router.get("/:email", authenticateToken, userController.getUserByEmail);
 
 // Rota para admins
 router.delete("/:id", authenticateToken, authorizeAdmin, userController.deleteUser);
-router.get("/admin-dashboard", authenticateToken, authorizeAdmin, (req, res) => {
-  res.json({ message: "Bem-vindo Admin 🚀" });
-});
 
 module.exports = router;

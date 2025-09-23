@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger'); // <- importa o arquivo separado
+const swaggerDocument = require('./swagger'); 
 
 const app = express();
 

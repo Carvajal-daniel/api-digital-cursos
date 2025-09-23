@@ -9,7 +9,6 @@ router.post("/login", userController.login);
 router.post("/", userController.createUser);
 
 // Rotas protegidas (qualquer usuário logado)
-// Coloque rotas estáticas antes das dinâmicas para evitar conflitos
 router.get("/admin-dashboard", authenticateToken, authorizeAdmin, (req, res) => {
   res.json({ message: "Bem-vindo Admin 🚀" });
 });
